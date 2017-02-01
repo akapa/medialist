@@ -1,19 +1,29 @@
 export default class Controller {
-	constructor(view, services) {
-		this.view = view;
+	constructor(services) {
+		this.view = null;
 		this.services = services;
 	}
 
 	start() {
-		this.refreshView();
 		this.body();
 	}
 
+	stop() {
+	}
+
+	setView(view) {
+		this.view = view;
+	}
+
 	refreshView() {
-		this.view.build();
+		if (this.view) this.view.render();
 	}
 
 	body() {
+		this.refreshView();
+	}
 
+	createChildView(which, factory) {
+		return factory();
 	}
 }
