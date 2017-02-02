@@ -6,7 +6,8 @@ export default class MediaFilter extends View {
 			sort: {},
 			filter: {},
 			sortOptions: ['id', 'description', 'title', 'location', 'viewers'],
-			sortDirections: ['asc', 'desc']
+			sortDirections: ['asc', 'desc'],
+			filters: ['channel', 'recorded', 'off']
 		};
 	}
 
@@ -38,14 +39,24 @@ export default class MediaFilter extends View {
 						`).join('')}
 						</select>
 					</label>
-					<label>
-						<span class="labeltext">Irány</span>
-						<select name="sortDirection">
-						${this.data.sortDirections.map((key) => `
-							<option value="${key}" ${key === this.data.sort.direction ? 'selected' : ''}>${key}</option>
-						`).join('')}
-						</select>
+					${this.data.sortDirections.map((key) => `
+						<label class="switch">
+							<input type="radio" name="sortDirection" value="${key}" ${key === this.data.sort.direction ? 'checked' : ''}>
+							<i class="icon icon-sort-alpha-${key}"></i>
+							<span class="labeltext">${key}</span>
+						</label>
+					`).join('')}
+				</fieldset>
+				<fieldset class="filters">
+				${this.data.filters.map((key) => `
+					<label class="switch">
+						<input type="checkbox" name="filters[]" value="${key}" ${key in this.data.filters ? '' : 'checked'}>
+						<i class="icon icon-${key}"></i>
+						<span class="labeltext">${key}</span>
 					</label>
+				`).join('')}
+				</fieldset>
+				<fieldset class="settings">
 				</fieldset>
 			</form>
 		`;

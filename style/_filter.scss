@@ -1,0 +1,55 @@
+.filters {
+	margin: $spacing;
+
+	form {
+		display: flex;
+	}
+
+	fieldset {
+		border: none;
+		position: relative;
+		padding: $spacing $spacing $spacing ($spacing * 3.25);
+		margin: 0 $spacing 0 0;
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 0;
+			z-index: -1;
+			background-color: $secondaryColor;
+			box-shadow: $defaultCardShadow;
+			transform: skewX(25deg);
+		}
+
+		&:after {
+			@extend .icon;
+			position: absolute;
+			top: -1px;
+			left: $spacing;
+			font-size: 1.5rem;
+			padding: $half-spacing ($half-spacing / 2) $half-spacing;
+			background-color: $primaryColor;
+			color: $secondaryColor;
+			box-shadow: 1px 1px 2px 1px rgba(black, 0.2);
+		}
+
+		&.sort:after {
+			@extend .icon-sort-amount-asc:before;
+		}
+
+		&.filters:after {
+			@extend .icon-filter:before;
+		}
+
+		&.settings:after {
+			@extend .icon-equalizer2:before;
+		}
+	}
+
+	.labeltext {
+		@extend #sr-only;
+	}
+}
