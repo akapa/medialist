@@ -10,7 +10,7 @@ export default class AppView extends View {
 				prop: 'id',
 				direction: 'asc'
 			},
-			filter: {}
+			filter: []
 		};
 	}
 
@@ -21,6 +21,16 @@ export default class AppView extends View {
 			},
 			mediaFilter: {
 				factory: ctrl => new MediaFilter('.filters', { sort: this.data.sort, filter: this.data.filter }, ctrl),
+				listeners: {
+					change: (event, data) => {
+						this.data.sort = {
+							prop: data.sortProp,
+							direction: data.sortDirection
+						};
+						this.data.filter = data.filters;
+						this.controller.runFilters();
+					}
+				}
 			}
 		};
 	}
