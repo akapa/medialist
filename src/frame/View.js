@@ -42,7 +42,6 @@ export default class View {
 		Object.keys(children).forEach((elem) => {
 			this.renderChild(elem, children[elem]);
 		});
-
 		this.attachListeners(this.listeners(), this.$element);
 	}
 
@@ -56,7 +55,8 @@ export default class View {
 
 	destroy() {
 		this.renderedChildren.forEach((child) => {
-			this.removeListeners(child.$definition.listeners, child);
+			const childListeners = child.$definition.listeners;
+			if (childListeners) this.removeListeners(childListeners, child);
 			child.destroy();
 		});
 		this.renderedChildren = [];
