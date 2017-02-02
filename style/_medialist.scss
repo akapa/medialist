@@ -1,0 +1,74 @@
+$mediaPictureSize: 2rem;
+
+.media {
+	background-color: white;
+	padding: $spacing;
+	box-shadow: 0.25rem 0.25rem 0.75rem 0.1rem rgba(black, 0.2);
+	position: relative;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-between;
+	transform: none;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+	&:hover {
+		transform: translateX(-0.2rem) translateY(-0.2rem);
+		box-shadow: 0.45rem 0.45rem 0.75rem 0.1rem rgba(black, 0.2);
+	}
+
+	.title {
+		text-align: right;
+	}
+
+	.description {
+		display: none;
+	}
+
+	.picture {
+		width: $mediaPictureSize;
+		height: $mediaPictureSize;
+		border: 1px solid $primaryColor;
+	}
+
+	.location {
+		@extend #ellipsis;
+		margin: 0;
+		text-align: left;
+		position: absolute;
+		top: $spacing;
+		right: $spacing;
+		left: $spacing + $mediaPictureSize + $half-spacing;
+		line-height: $mediaPictureSize / 2;
+		font-size: 0.9rem;
+
+		> span {
+			display: block;
+		}
+	}
+
+	.labels {
+		@extend #unstyled-list;
+		text-align: right;
+
+		.label {
+			margin-bottom: 0.25rem;
+		}
+	}
+}
+
+.medialist {
+	margin: $spacing;
+
+	.list {
+		@extend #unstyled-list;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+
+		> li {
+			margin: 0 auto $spacing;
+			flex: 0 0 26%;
+		}
+	}
+
+}

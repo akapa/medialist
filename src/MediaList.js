@@ -9,18 +9,21 @@ export default class MediaList extends View {
 
 	template() {
 		return `
-			<ul>
+			<ul class="list">
 			${this.data.media.map((elem) => `
-				<li data-id="${elem.id}" class="${elem.type} ${elem.isLive ? 'is-live' : ''}">
+				<li data-id="${elem.id}" class="media ${elem.type} ${elem.isLive ? 'is-live' : ''}">
 					<img class="picture" src="${elem.picture}" alt="" />
 					<h2 class="title">${elem.title}</h2>
 					<p class="description">${elem.description}</p>
 					<ul class="labels">
 					${elem.labels.map(label => `
-						<li>${label}</li>
+						<li class="label" tabindex="0">${label}</li>
 					`).join('')}
 					</ul>
-					<p class="location">${elem.location.city}, ${elem.location.country}</p>
+					<p class="location">
+						<span class="city">${elem.location.city}</span>
+						<span class="country">${elem.location.country}</span>
+					</p>
 				</li>
 			`).join('')}
 			</ul>

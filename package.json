@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
-    "build": "babel src -d build",
+    "build": "babel src -d build && npm run css",
     "test": "karma start",
-    "watch": "babel src -d build -w",
+    "watch": "parallelshell 'babel src -d build -w' 'node-sass style/index.scss -wo build/css'",
     "serve": "http-server -c-1",
-    "start": "npm run build && npm run serve"
+    "start": "npm run build && npm run serve",
+    "css": "node-sass style/index.scss -o build/css"
   },
   "author": "Richard Nagy <tubi.kapa@gmail.com>",
   "license": "MIT",
@@ -20,7 +21,9 @@
     "eslint": "^3.14.1",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
-    "http-server": "^0.9.0"
+    "http-server": "^0.9.0",
+    "node-sass": "^4.5.0",
+    "parallelshell": "^2.0.0"
   },
   "dependencies": {
     "jquery": "^3.1.1",

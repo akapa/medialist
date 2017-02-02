@@ -1,0 +1,40 @@
+@import 'settings';
+@import 'fonts';
+
+@import 'filter';
+@import 'medialist';
+
+body {
+	margin: 0;
+	background-color: $bodyBgColor;
+	font-family: $textFont;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: $headingFont;
+}
+
+p {
+	margin: $spacing 0;
+}
+
+.label {
+	display: inline-block;
+	padding: 0.25rem 0.5rem;
+	font-size: 0.75rem;
+	background-color: $primaryColor;
+	color: white;
+	cursor: pointer;
+}
+
+#unstyled-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+#ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
