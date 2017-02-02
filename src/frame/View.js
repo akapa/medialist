@@ -1,11 +1,12 @@
 import $ from 'jquery';
 import eventable from './eventable';
+import listenerManager from './listenerManager';
 import Controller from './Controller';
 
 export default class View {
 	constructor(element, data = {}, controller) {
-		Object.assign(this, eventable);
 		eventable(this);
+		listenerManager(this);
 		this.$element = $(element);
 		this.data = Object.assign({}, this.defaultData(), data);
 		this.controller = controller || new Controller();
@@ -30,7 +31,6 @@ export default class View {
 	}
 
 	build() {
-		this.attachListeners();
 		this.controller.start();
 	}
 
@@ -42,32 +42,27 @@ export default class View {
 		Object.keys(children).forEach((elem) => {
 			this.renderChild(elem, children[elem]);
 		});
+
+		this.attachListeners(this.listeners(), this.$element);
 	}
 
-	renderChild(which, factory) {
-		const child = this.controller.createChildView(which, factory);
+	renderChild(which, definition) {
+		const child = this.controller.createChildView(which, definition.factory);
+		child.$definition = definition;
 		child.build();
 		this.renderedChildren.push(child);
+		if (definition.listeners) this.attachListeners(definition.listeners, child);
 	}
 
 	destroy() {
-		this.renderedChildren.forEach((elem) => {
-			elem.destroy();
+		this.renderedChildren.forEach((child) => {
+			this.removeListeners(child.$definition.listeners, child);
+			child.destroy();
 		});
 		this.renderedChildren = [];
 
-		this.removeListeners();
+		this.removeListeners(this.listeners(), this.$element);
 		this.controller.stop();
 		this.$element.empty();
-	}
-
-	attachListeners() {
-		Object.keys(this.listeners).forEach((key) => {
-			this.$element.on(key, this.listeners[key]);
-		});
-	}
-
-	removeListeners() {
-		this.$element.off();
 	}
 }
