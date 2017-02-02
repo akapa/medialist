@@ -5,6 +5,7 @@ import Controller from './Controller';
 export default class View {
 	constructor(element, data = {}, controller) {
 		Object.assign(this, eventable);
+		eventable(this);
 		this.$element = $(element);
 		this.data = Object.assign({}, this.defaultData(), data);
 		this.controller = controller || new Controller();
