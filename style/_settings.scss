@@ -1,4 +1,5 @@
 $primaryColor: #042f40;
+$secondaryColor: #fef858;
 $bodyBgColor: #9bff69;
 
 $textFont: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
@@ -6,3 +7,6 @@ $headingFont: 'Nexa Rust';
 
 $spacing: 1.5rem;
 $half-spacing: $spacing / 2;
+
+$defaultCardShadow: 0.25rem 0.25rem 0.75rem 0.1rem rgba(black, 0.2);
+$raisedCardShadow: 0.45rem 0.45rem 0.75rem 0.1rem rgba(black, 0.2);

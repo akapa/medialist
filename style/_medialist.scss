@@ -2,8 +2,9 @@ $mediaPictureSize: 2rem;
 
 .media {
 	background-color: white;
+	color: $primaryColor;
 	padding: $spacing;
-	box-shadow: 0.25rem 0.25rem 0.75rem 0.1rem rgba(black, 0.2);
+	box-shadow: $defaultCardShadow;
 	position: relative;
 	display: flex;
 	flex-flow: column nowrap;
@@ -11,9 +12,34 @@ $mediaPictureSize: 2rem;
 	transform: none;
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 
+	&:before {
+		@extend .icon;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		font-size: 12em;
+		color: rgba($primaryColor, 0.1);
+	}
+
+	&.channel:before {
+		@extend .icon-channel:before;
+	}
+
+	&.recorded:before {
+		@extend .icon-recorded:before;
+	}
+
+	&.channel:not(.is-live) {
+		opacity: 0.75;
+
+		&:before {
+			@extend .icon-off:before;
+		}
+	}
+
 	&:hover {
 		transform: translateX(-0.2rem) translateY(-0.2rem);
-		box-shadow: 0.45rem 0.45rem 0.75rem 0.1rem rgba(black, 0.2);
+		box-shadow: $raisedCardShadow;
 	}
 
 	.title {
@@ -30,19 +56,27 @@ $mediaPictureSize: 2rem;
 		border: 1px solid $primaryColor;
 	}
 
+	.viewers {
+		position: absolute;
+		top: $spacing;
+		right: $spacing;
+		margin: 0;
+		line-height: $mediaPictureSize;
+	}
+
 	.location {
-		@extend #ellipsis;
 		margin: 0;
 		text-align: left;
 		position: absolute;
 		top: $spacing;
-		right: $spacing;
+		right: $spacing * 4.5;
 		left: $spacing + $mediaPictureSize + $half-spacing;
 		line-height: $mediaPictureSize / 2;
 		font-size: 0.9rem;
 
 		> span {
 			display: block;
+			@extend #ellipsis;
 		}
 	}
 
