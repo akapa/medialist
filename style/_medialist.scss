@@ -76,12 +76,12 @@ $mediaPictureSize: 2rem;
 
 		> span {
 			display: block;
-			@extend #ellipsis;
+			@extend %ellipsis;
 		}
 	}
 
 	.labels {
-		@extend #unstyled-list;
+		@extend %unstyled-list;
 		text-align: right;
 
 		.label {
@@ -91,17 +91,20 @@ $mediaPictureSize: 2rem;
 }
 
 .medialist {
-	margin: $spacing;
+	margin: 0 $half-spacing $spacing ($spacing * 2 - $half-spacing);
 
 	.list {
-		@extend #unstyled-list;
+		@extend %unstyled-list;
 		display: flex;
 		flex-flow: row wrap;
-		justify-content: center;
+		padding: $half-spacing;
 
 		> li {
-			margin: 0 auto $spacing;
-			flex: 0 0 26%;
+			margin: $half-spacing;
+			flex: 0 0 auto;
+			width: calc(25% - #{$spacing});
+			transition: width 0.2s ease;
+
 		}
 	}
 
