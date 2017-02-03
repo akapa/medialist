@@ -6,6 +6,14 @@
 
 	form {
 		display: inline-flex;
+
+		&.other {
+			float: right;
+			@include media('<laptop') {
+				float: none;
+				margin-left: -0.25rem;
+			}
+		}
 	}
 
 	fieldset {

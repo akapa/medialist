@@ -10,3 +10,11 @@ $half-spacing: $spacing / 2;
 
 $defaultCardShadow: 0.25rem 0.25rem 0.75rem 0.1rem rgba(black, 0.2);
 $raisedCardShadow: 0.45rem 0.45rem 0.75rem 0.1rem rgba(black, 0.2);
+
+$breakpoints: (
+	phone: 320px,
+	tablet: 768px,
+	laptop: 1024px,
+	desktop: 1200px,
+	huge: 1600px
+);

@@ -105,6 +105,17 @@ $mediaPictureSize: 2rem;
 			width: calc(25% - #{$spacing});
 			transition: width 0.2s ease;
 
+			@include media('<huge') {
+				width: calc(33.33% - #{$spacing});
+			}
+
+			@include media('<desktop') {
+				width: calc(50% - #{$spacing});
+			}
+
+			@include media('<tablet') {
+				width: calc(100% - #{$spacing});
+			}
 		}
 	}
 
