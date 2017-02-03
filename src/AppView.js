@@ -49,12 +49,17 @@ export default class AppView extends View {
 		}
 	}
 
+	notifyError(error) {
+		this.$element.find('.notifications').append(`<div class="notification error">${error}</div>`);
+	}
+
 	template() {
 		return `
 			<article class="mediawidget">
 				<div class="filters"></div>
 				<div class="medialist"></div>
 			</article>
+			<div class="notifications></div>
 		`;
 	}
 }

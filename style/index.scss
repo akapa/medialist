@@ -34,6 +34,23 @@ p {
 	cursor: pointer;
 }
 
+.notifications {
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	.notification {
+		padding: $spacing;
+		margin: $spacing;
+		box-shadow: $defaultCardShadow;
+
+		&.error {
+			background-color: $errorColor;
+			color: white;
+		}
+	}
+}
+
 %unstyled-list {
 	list-style: none;
 	padding: 0;

@@ -7,16 +7,13 @@ export default class App extends Controller {
 	}
 
 	query() {
-		this.services.dataSource.refresh().then(() => {
-			this.runFilters();
-		});
-	}
-
-	poll() {
-		setTimeout(() => {
-			this.query();
-			this.poll();
-		}, this.view.data.polling * 1000);
+		return this.services.dataSource.refresh()
+			.then(() => {
+				this.runFilters();
+			})
+			.catch((error) => {
+				this.view.notifyError([error.status, error.statusText].join(' - '));
+			});
 	}
 
 	renderResults(results) {
