@@ -14,6 +14,7 @@ input, select, textarea {
 .switch {
 	vertical-align: middle;
 	display: inline-block;
+	position: relative;
 
 	.icon {
 		font-size: 1.5rem;
@@ -29,6 +30,23 @@ input, select, textarea {
 		&:checked + .icon {
 			background-color: $primaryColor;
 			color: white;
+		}
+	}
+
+	&.strike {
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 2px;
+			background-color: $primaryColor;
+			border: 1px solid white;
+			transform: rotate(45deg) translateX(20%);
+			transform-origin: 0 0;
+			border-radius: 2px;
 		}
 	}
 }
