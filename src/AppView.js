@@ -7,10 +7,11 @@ export default class AppView extends View {
 		return {
 			media: [],
 			sort: {
-				prop: 'id',
+				prop: 'title',
 				direction: 'asc'
 			},
-			filter: []
+			filter: [],
+			polling: 10
 		};
 	}
 
@@ -20,19 +21,32 @@ export default class AppView extends View {
 				factory: ctrl => new MediaList('.medialist', { media: this.data.media }, ctrl)
 			},
 			mediaFilter: {
-				factory: ctrl => new MediaFilter('.filters', { sort: this.data.sort, filter: this.data.filter }, ctrl),
+				factory: ctrl => new MediaFilter('.filters', {
+					sort: this.data.sort,
+					filter: this.data.filter,
+					polling: this.data.polling
+				}, ctrl),
 				listeners: {
-					change: (event, data) => {
-						this.data.sort = {
-							prop: data.sortProp,
-							direction: data.sortDirection
-						};
-						this.data.filter = data.filter || [];
-						this.controller.runFilters();
-					}
+					change: this.handleFilterChange.bind(this)
 				}
 			}
 		};
+	}
+
+	handleFilterChange(event, data) {
+		if (data.polling) {
+			this.data.polling = data.polling;
+		}
+		else {
+			Object.assign(this.data, {
+				sort: {
+					prop: data.sortProp,
+					direction: data.sortDirection
+				},
+				filter: data.filter || []
+			});
+			this.controller.runFilters();
+		}
 	}
 
 	template() {

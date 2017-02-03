@@ -5,6 +5,7 @@ export default class MediaFilter extends View {
 		return {
 			sort: {},
 			filter: [],
+			polling: 10,
 			sortOptions: ['id', 'description', 'title', 'location', 'viewers'],
 			sortDirections: ['asc', 'desc'],
 			filters: ['channel', 'recorded', 'off']
@@ -13,26 +14,28 @@ export default class MediaFilter extends View {
 
 	listeners() {
 		return {
-			'submit@form': (event) => {
-				event.preventDefault();
-				const $form = this.$element.find(event.target).closest('form');
-
-				// bringing stuff to { key: value } format instead of jQuery's [{ name: key, value: value }]
-				const reductor = (memo, current) => {
-					if (current.name.slice(-2) === '[]') {
-						const key = current.name.slice(0, -2);
-						if (!(key in memo)) memo[key] = [];
-						memo[key].push(current.value);
-						return memo;
-					}
-					return Object.assign(memo, { [current.name]: current.value });
-				};
-				const formData = $form.serializeArray().reduce(reductor, {});
-
-				this.trigger('change', formData);
-			},
+			'submit@form': this.handleSubmit.bind(this),
 			'change@input,select': (event) => { this.$element.find(event.target).closest('form').submit(); }
 		};
+	}
+
+	handleSubmit(event) {
+		event.preventDefault();
+		const $form = this.$element.find(event.target).closest('form');
+
+		// bringing stuff to { key: value } format instead of jQuery's [{ name: key, value: value }]
+		const reductor = (memo, current) => {
+			if (current.name.slice(-2) === '[]') {
+				const key = current.name.slice(0, -2);
+				if (!(key in memo)) memo[key] = [];
+				memo[key].push(current.value);
+				return memo;
+			}
+			return Object.assign(memo, { [current.name]: current.value });
+		};
+		const formData = $form.serializeArray().reduce(reductor, {});
+
+		this.trigger('change', formData);
 	}
 
 	template() {
@@ -69,7 +72,7 @@ export default class MediaFilter extends View {
 				<fieldset class="settings">
 					<label>
 						<span class="labeltext">Polling interval</span>
-						<input type="number" name="polling" value="" min="4" max="100" />
+						<input type="number" name="polling" value="${this.data.polling}" min="4" max="100" />
 						<span>seconds</span>
 					</label>
 				</fieldset>

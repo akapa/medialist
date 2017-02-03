@@ -2,7 +2,21 @@ import Controller from './frame/Controller';
 
 export default class App extends Controller {
 	body() {
-		this.services.dataSource.refresh().then(this.runFilters.bind(this));
+		this.query();
+		this.poll();
+	}
+
+	query() {
+		this.services.dataSource.refresh().then(() => {
+			this.runFilters();
+		});
+	}
+
+	poll() {
+		setTimeout(() => {
+			this.query();
+			this.poll();
+		}, this.view.data.polling * 1000);
 	}
 
 	renderResults(results) {
