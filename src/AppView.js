@@ -27,7 +27,7 @@ export default class AppView extends View {
 							prop: data.sortProp,
 							direction: data.sortDirection
 						};
-						this.data.filter = data.filters;
+						this.data.filter = data.filter || [];
 						this.controller.runFilters();
 					}
 				}

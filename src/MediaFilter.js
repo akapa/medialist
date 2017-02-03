@@ -4,7 +4,7 @@ export default class MediaFilter extends View {
 	defaultData() {
 		return {
 			sort: {},
-			filter: {},
+			filter: [],
 			sortOptions: ['id', 'description', 'title', 'location', 'viewers'],
 			sortDirections: ['asc', 'desc'],
 			filters: ['channel', 'recorded', 'off']
@@ -15,24 +15,32 @@ export default class MediaFilter extends View {
 		return {
 			'submit@form': (event) => {
 				event.preventDefault();
-				const $form = this.$element.find('form');
+				const $form = this.$element.find(event.target).closest('form');
 
 				// bringing stuff to { key: value } format instead of jQuery's [{ name: key, value: value }]
-				const reductor = (memo, current) => Object.assign(memo, { [current.name]: current.value });
+				const reductor = (memo, current) => {
+					if (current.name.slice(-2) === '[]') {
+						const key = current.name.slice(0, -2);
+						if (!(key in memo)) memo[key] = [];
+						memo[key].push(current.value);
+						return memo;
+					}
+					return Object.assign(memo, { [current.name]: current.value });
+				};
 				const formData = $form.serializeArray().reduce(reductor, {});
 
 				this.trigger('change', formData);
 			},
-			'change@input,select': () => { this.$element.find('form').submit(); }
+			'change@input,select': (event) => { this.$element.find(event.target).closest('form').submit(); }
 		};
 	}
 
 	template() {
 		return `
-			<form>
+			<form class="sort-filter">
 				<fieldset class="sort">
 					<label>
-						<span class="labeltext">Rendezés</span>
+						<span class="labeltext">Sort by</span>
 						<select name="sortProp">
 						${this.data.sortOptions.map((key) => `
 							<option value="${key}" ${key === this.data.sort.prop ? 'selected' : ''}>${key}</option>
@@ -49,14 +57,21 @@ export default class MediaFilter extends View {
 				</fieldset>
 				<fieldset class="filters">
 				${this.data.filters.map((key) => `
-					<label class="switch">
-						<input type="checkbox" name="filters[]" value="${key}" ${key in this.data.filters ? '' : 'checked'}>
+					<label class="switch strike">
+						<input type="checkbox" name="filter[]" value="${key}" ${this.data.filter.includes(key) ? 'checked' : ''}>
 						<i class="icon icon-${key}"></i>
 						<span class="labeltext">${key}</span>
 					</label>
 				`).join('')}
 				</fieldset>
+			</form>
+			<form class="other">
 				<fieldset class="settings">
+					<label>
+						<span class="labeltext">Polling interval</span>
+						<input type="number" name="polling" value="" min="4" max="100" />
+						<span>seconds</span>
+					</label>
 				</fieldset>
 			</form>
 		`;

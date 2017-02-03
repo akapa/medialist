@@ -38,5 +38,11 @@ export default class ApiMediaSource extends DataSource {
 			if (p1 < p2) return -dir;
 			return 0;
 		};
+
+		this.filters = filters.map((filter) => {
+			if (filter === 'off') return elem => elem.type !== 'channel' || elem.isLive;
+			if (filter === 'channel') return elem => elem.type !== 'channel' || !elem.isLive;
+			return elem => elem.type !== filter;
+		});
 	}
 }

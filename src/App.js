@@ -14,7 +14,7 @@ export default class App extends Controller {
 		const ds = this.services.dataSource;
 		const vd = this.view.data;
 
-		ds.applyFilters(vd.sort.prop, vd.sort.direction, vd.filters);
+		ds.applyFilters(vd.sort.prop, vd.sort.direction, vd.filter);
 		this.renderResults(ds.getData());
 	}
 }
