@@ -2,17 +2,21 @@ import Controller from './frame/Controller';
 
 export default class App extends Controller {
 	body() {
+		this.retries = 0;
 		this.query();
-		this.poll();
+		this.services.poller.start(this.query.bind(this), this.view.data.polling * 1000);
 	}
 
 	query() {
 		return this.services.dataSource.refresh()
 			.then(() => {
+				this.retries = 0;
 				this.runFilters();
 			})
 			.catch((error) => {
+				this.retries += 1;
 				this.view.notifyError([error.status, error.statusText].join(' - '));
+				if (this.retries >= 5) this.services.poller.stop();
 			});
 	}
 
