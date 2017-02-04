@@ -18,7 +18,14 @@ export default class AppView extends View {
 	childViews() {
 		return {
 			mediaList: {
-				factory: ctrl => new MediaList('.medialist', { media: this.data.media }, ctrl)
+				factory: ctrl => new MediaList('.medialist', {
+					media: this.data.media,
+					watchLaterList: this.controller.watchLaterList
+				}, ctrl),
+				listeners: {
+					watchLater: (event, id) => this.controller.watchLater(id),
+					dontWatchLater: (event, id) => this.controller.dontWatchLater(id)
+				}
 			},
 			mediaFilter: {
 				factory: ctrl => new MediaFilter('.filters', {
@@ -36,8 +43,7 @@ export default class AppView extends View {
 	handleFilterChange(event, data) {
 		if (data.polling) {
 			this.data.polling = data.polling;
-		}
-		else {
+		} else {
 			Object.assign(this.data, {
 				sort: {
 					prop: data.sortProp,

@@ -1,9 +1,22 @@
+import $ from 'jquery';
 import View from './frame/View';
 
 export default class MediaList extends View {
 	defaultData() {
 		return {
-			media: []
+			media: [],
+			watchLaterList: []
+		};
+	}
+
+	listeners() {
+		return {
+			'click@.watch-later': (event) => {
+				const $button = $(event.target).closest('button');
+				const which = $button.hasClass('strike') ? 'dontWatchLater' : 'watchLater';
+				this.trigger(which, $button.closest('.media').data('id'));
+				$button.toggleClass('strike');
+			}
 		};
 	}
 
@@ -27,6 +40,8 @@ export default class MediaList extends View {
 					</p>
 					` : ''}
 					<p class="viewers"><i class="icon icon-users"></i> ${elem.viewers || 0}</p>
+					<button class="watch-later icon icon-download ${this.data.watchLaterList.includes(elem.id) ? 'strike' : ''}">
+					</button>
 				</li>
 			`).join('')}
 			</ul>

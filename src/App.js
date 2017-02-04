@@ -5,12 +5,22 @@ export default class App extends Controller {
 		this.retries = 0;
 		this.query();
 		this.services.poller.start(this.query.bind(this), this.view.data.polling * 1000);
+		this.watchLaterList = this.services.watchLater.load();
+	}
+
+	watchLater(id) {
+		this.services.watchLater.add(id);
+	}
+
+	dontWatchLater(id) {
+		this.services.watchLater.remove(id);
 	}
 
 	query() {
 		return this.services.dataSource.refresh()
-			.then(() => {
+			.then((results) => {
 				this.retries = 0;
+				this.services.watchLater.clean(results.map(elem => elem.id));
 				this.runFilters();
 			})
 			.catch((error) => {

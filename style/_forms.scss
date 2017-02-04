@@ -1,4 +1,4 @@
-input, select, textarea {
+input, select, textarea, button {
 	font-family: $headingFont;
 	border: 2px dotted $primaryColor;
 	padding: 0.5rem 0.25rem;
@@ -8,6 +8,21 @@ input, select, textarea {
 	&:focus {
 		border-style: dashed;
 		outline: none;
+	}
+}
+
+button {
+	cursor: pointer;
+	color: $primaryColor;
+	background-color: $secondaryColor;
+	padding: 0.75rem;
+	font-size: 1.5rem;
+	line-height: 1;
+	transition: 0.3s color ease, 0.3s background-color ease;
+
+	&:hover {
+		background-color: $primaryColor;
+		color: $secondaryColor;
 	}
 }
 
@@ -32,10 +47,13 @@ input, select, textarea {
 			color: white;
 		}
 	}
+}
+
+.switch, button {
 
 	&.strike {
 
-		&:before {
+		&:after {
 			content: '';
 			position: absolute;
 			top: 0;
@@ -47,6 +65,7 @@ input, select, textarea {
 			transform: rotate(45deg) translateX(20%);
 			transform-origin: 0 0;
 			border-radius: 2px;
+			color: currentColor;
 		}
 	}
 }
