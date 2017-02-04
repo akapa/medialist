@@ -6,9 +6,12 @@ export default function listenerManager(obj) {
 		removeListeners(listeners, context) {
 			this.switchListeners(listeners, context, 'off');
 		},
-		switchListeners(listeners, context, way) {
+		switchListeners(listeners = {}, context = {}, way = 'on') {
 			Object.keys(listeners).forEach((key) => {
 				const keyParts = key.split('@');
+
+				if (!context[way]) return;
+
 				if (keyParts.length > 1) context[way](keyParts[0], keyParts[1], listeners[key]);
 				else context[way](key, listeners[key]);
 			});
