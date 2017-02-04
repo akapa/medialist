@@ -11,19 +11,20 @@ export default class WatchLaterList {
 
 	remove(id) {
 		const index = this.list.indexOf(id);
-		if (index) {
+		if (index !== -1) {
 			this.list.splice(index, 1);
 			this.save();
 		}
 	}
 
 	load() {
-		this.list = JSON.parse(localStorage.getItem(this.storageKey)) || [];
+		const stored = window.localStorage.getItem(this.storageKey);
+		this.list = stored ? JSON.parse(stored) : [];
 		return this.list;
 	}
 
 	save() {
-		localStorage.setItem(this.storageKey, JSON.stringify(this.list));
+		window.localStorage.setItem(this.storageKey, JSON.stringify(this.list));
 	}
 
 	clean(ids) {
