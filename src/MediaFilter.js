@@ -22,7 +22,10 @@ export default class MediaFilter extends View {
 	handleSubmit(event) {
 		event.preventDefault();
 		const $form = this.$element.find(event.target).closest('form');
+		this.trigger('change', this.convertFormData($form.serializeArray()));
+	}
 
+	convertFormData(data) {
 		// bringing stuff to { key: value } format instead of jQuery's [{ name: key, value: value }]
 		const reductor = (memo, current) => {
 			if (current.name.slice(-2) === '[]') {
@@ -33,9 +36,7 @@ export default class MediaFilter extends View {
 			}
 			return Object.assign(memo, { [current.name]: current.value });
 		};
-		const formData = $form.serializeArray().reduce(reductor, {});
-
-		this.trigger('change', formData);
+		return data.reduce(reductor, {});
 	}
 
 	template() {
