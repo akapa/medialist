@@ -8,14 +8,6 @@ export default class App extends Controller {
 		this.watchLaterList = this.services.watchLater.load();
 	}
 
-	watchLater(id) {
-		this.services.watchLater.add(id);
-	}
-
-	dontWatchLater(id) {
-		this.services.watchLater.remove(id);
-	}
-
 	query() {
 		return this.services.dataSource.refresh()
 			.then((results) => {
@@ -42,4 +34,13 @@ export default class App extends Controller {
 		ds.applyFilters(vd.sort.prop, vd.sort.direction, vd.filter);
 		this.renderResults(ds.getData());
 	}
+
+	watchLater(id) {
+		this.services.watchLater.add(id);
+	}
+
+	dontWatchLater(id) {
+		this.services.watchLater.remove(id);
+	}
+
 }
