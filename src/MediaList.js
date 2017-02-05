@@ -11,13 +11,17 @@ export default class MediaList extends View {
 
 	listeners() {
 		return {
-			'click@.watch-later': (event) => {
-				const $button = $(event.target).closest('button');
-				const which = $button.hasClass('strike') ? 'dontWatchLater' : 'watchLater';
-				this.trigger(which, $button.closest('.media').data('id'));
-				$button.toggleClass('strike');
-			}
+			'click@.watch-later': this.watchLater.bind(this)
 		};
+	}
+
+	watchLater(event) {
+		if (!event) return;
+
+		const $button = $(event.target).closest('button');
+		const which = $button.hasClass('strike') ? 'dontWatchLater' : 'watchLater';
+		this.trigger(which, $button.closest('.media').data('id'));
+		$button.toggleClass('strike');
 	}
 
 	template() {

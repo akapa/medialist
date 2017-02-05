@@ -1,6 +1,6 @@
 import WatchLaterList from './WatchLaterList';
 
-describe('Watch Later list', () => {
+describe('Watch Later collection', () => {
 
 	let wl;
 	beforeEach(() => {
